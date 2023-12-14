@@ -26,6 +26,8 @@ export default function UserProfile() {
         setUser(undefined);
     }
 
+    const isAdmin = user?.user_metadata?.role === "admin";
+
     return (
         <>
             <Popover>
@@ -43,12 +45,12 @@ export default function UserProfile() {
                         <p>{user?.user_metadata?.name}</p>
                         <p className='text-gray-500'>{user?.user_metadata?.email}</p>
                     </div>
-                    <Link href='/dashboard' className='block'>
+                    {isAdmin ? <Link href='/dashboard' className='block'>
                         <Button>
                             DashBoard
                             <DashboardIcon className='ml-2' />
                         </Button>
-                    </Link>
+                    </Link> : ""}
                     <Button
                         variant='ghost'
                         className='border'
