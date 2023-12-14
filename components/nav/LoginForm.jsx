@@ -7,7 +7,7 @@ import { usePathname } from 'next/navigation';
 
 
 
-export default function LoginForm() {
+export default function LoginButton() {
 
     const pathName = usePathname();
     // console.log(pathName);
@@ -26,9 +26,11 @@ export default function LoginForm() {
     }
 
     return (
-        <Button onClick={handleLogin} className='flex text-red-500 items-center gap-2'>
-            <FaGithub />
-            Login
-        </Button>
+        <>
+            <Button variant='outline' onClick={handleLogin} className='flex items-center gap-2'>
+                <FaGithub />
+                Login
+            </Button>
+        </>
     )
 }
