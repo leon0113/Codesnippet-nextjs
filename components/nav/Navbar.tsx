@@ -1,9 +1,10 @@
 'use client'
 
-import Link from 'next/link'
-import React from 'react'
-import { useUser } from '@/lib/store/user'
-import LoginButton from './LoginForm.jsx'
+import Link from 'next/link';
+import React from 'react';
+import { useUser } from '@/lib/store/user';
+import UserProfile from './UserProfile';
+import LoginButton from './LoginForm.jsx';
 
 export default function Navbar() {
     const user = useUser((state) => state.user);
@@ -16,7 +17,7 @@ export default function Navbar() {
             </div>
 
             {/* login  */}
-            {user ? <h1>{user.email}</h1> : <LoginButton />}
+            {user ? <UserProfile /> : <LoginButton />}
 
         </nav>
     )
