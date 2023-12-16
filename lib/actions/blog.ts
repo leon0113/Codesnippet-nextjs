@@ -4,9 +4,11 @@ import { blogFormSchemaType } from './../../app/dashboard/schema/index';
 import { createServerClient } from '@supabase/ssr';
 import { Database } from './../types/supabase';
 import { cookies } from "next/headers"
+import { revalidatePath } from 'next/cache';
 
 const cookieStore = cookies();
 
+const DASHBOARD = '/dashboard';
 
 const supabase = createServerClient<Database>(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -21,7 +23,7 @@ const supabase = createServerClient<Database>(
 );
 
 
-
+//! ----------------------Create Blog to db Function--------------------------------------------
 export async function createBlog(data: blogFormSchemaType) {
 
     // console.log("data", data);
@@ -39,30 +41,16 @@ export async function createBlog(data: blogFormSchemaType) {
 
 }
 
-// export async function createBlog(data: {
-// 	content: string;
-// 	title: string;
-// 	image_url: string;
-// 	is_premium: boolean;
-// 	is_published: boolean;
-// }) {
-// 	const { ["content"]: excludedKey, ...blog } = data;
 
-// 	const supabase = await createSupabaseServerClient();
-// 	const blogResult = await supabase
-// 		.from("blog")
-// 		.insert(blog)
-// 		.select("id")
-// 		.single();
+//! ----------------------Read Blogs from db Function--------------------------------------------
+export async function readBlogs() {
+    return supabase.from("blogs").select("*").order("created_at", { ascending: true })
+}
 
-// 	if (blogResult.error?.message && !blogResult.data) {
-// 		return JSON.stringify(blogResult);
-// 	} else {
-// 		const result = await supabase
-// 			.from("blog_content")
-// 			.insert({ blog_id: blogResult?.data?.id!, content: data.content });
 
-// 		revalidatePath(DASHBOARD);
-// 		return JSON.stringify(result);
-// 	}
-// }
+//! ----------------------Delete Blog from db Function--------------------------------------------
+export async function deleteBlogFromDb(blogId: string) {
+    const result = await supabase.from("blogs").delete().eq("id", blogId);
+    revalidatePath(DASHBOARD);
+    return JSON.stringify(result);
+}

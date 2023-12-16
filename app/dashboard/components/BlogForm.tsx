@@ -15,7 +15,7 @@ import { toast } from "@/components/ui/use-toast"
 import { EyeOpenIcon, Pencil1Icon, RocketIcon, StarIcon } from "@radix-ui/react-icons"
 import { Switch } from "@/components/ui/switch"
 import { BsSave } from 'react-icons/bs';
-import { useState } from "react"
+import { useState, useTransition } from "react"
 import { cn } from "@/lib/utils"
 import Image from "next/image"
 import { Textarea } from "@/components/ui/textarea"
@@ -30,6 +30,8 @@ export default function BlogForm({
 }: { onHandleSubmit: (data: blogFormSchemaType) => void }) {
 
     const [isPreview, setIsPreview] = useState(false);
+    // animation after saving a post
+    const [isPending, startTransition] = useTransition()
 
     const form = useForm<z.infer<typeof FormSchema>>({
         mode: "all",
@@ -44,7 +46,9 @@ export default function BlogForm({
     })
 
     function onSubmit(data: z.infer<typeof FormSchema>) {
-        onHandleSubmit(data);
+        startTransition(() => {
+            onHandleSubmit(data);
+        })
     }
 
     return (
@@ -109,7 +113,7 @@ export default function BlogForm({
                         />
                     </div>
                     {/* save button  */}
-                    <Button className="flex items-center gap-2" disabled={!form.formState.isValid}>
+                    <Button className={cn("flex items-center gap-2", { "animate-ping": isPending })} disabled={!form.formState.isValid}>
                         <BsSave />
                         Save
                     </Button>
