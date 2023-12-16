@@ -1,8 +1,10 @@
 import { Button } from '@/components/ui/button'
 import { EyeOpenIcon, Pencil1Icon } from '@radix-ui/react-icons'
 import { Switch } from "@/components/ui/switch"
-import { readBlogs } from '@/lib/actions/blog'
+import { readBlogs, updateSwitchFormFromDb } from '@/lib/actions/blog'
 import DeleteAlert from './DeleteAlert'
+import SwitchForm from './SwitchForm'
+import { blogFormSchemaType } from '../schema'
 
 
 export default async function BlogTable() {
@@ -20,14 +22,18 @@ export default async function BlogTable() {
                 </div>
                 {/* table content  */}
                 {
-                    blogs?.map((blog) => (
-                        <div key={blog.id} className='grid grid-cols-6 p-5'>
+                    blogs?.map((blog) => {
+
+                        const updatePremium = updateSwitchFormFromDb.bind(null, blog.id, { is_premium: blog.is_premium } as unknown as blogFormSchemaType)
+                        const updatePublish = updateSwitchFormFromDb.bind(null, blog.id, { is_publish: blog.is_publish } as unknown as blogFormSchemaType)
+
+                        return (<div key={blog.id} className='grid grid-cols-6 p-5'>
                             <h1 className='col-span-2'>{blog.title}</h1>
-                            <Switch checked={blog.is_premium} />
-                            <Switch checked={blog.is_publish} />
+                            <SwitchForm checked={blog.is_premium} name='Premium' onToggle={updatePremium} />
+                            <SwitchForm checked={blog.is_publish} name='Publish' onToggle={updatePublish} />
                             <BlogActions blogId={blog.id} blogTitle={blog.title} />
-                        </div>
-                    ))
+                        </div>)
+                    })
                 }
 
             </div>

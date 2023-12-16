@@ -54,3 +54,11 @@ export async function deleteBlogFromDb(blogId: string) {
     revalidatePath(DASHBOARD);
     return JSON.stringify(result);
 }
+
+
+//! ----------------------Update switchForm from db Function--------------------------------------------
+export async function updateSwitchFormFromDb(blogId: string, data: blogFormSchemaType) {
+    const result = await supabase.from("blogs").update(data).eq("id", blogId);
+    revalidatePath(DASHBOARD);
+    return JSON.stringify(result);
+}
