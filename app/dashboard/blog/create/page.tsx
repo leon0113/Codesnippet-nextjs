@@ -1,7 +1,7 @@
 'use client'
 import React from 'react'
 import BlogForm from '../../components/BlogForm'
-import { blogFormSchemaType } from '../../schema'
+import { BlogFormSchemaType } from '../../schema'
 import { toast } from '@/components/ui/use-toast'
 import { createBlog } from '../../../../lib/actions/blog'
 import { useRouter } from 'next/navigation'
@@ -10,7 +10,7 @@ export default function CreateBlog() {
 
   const router = useRouter();
 
-  const handleCreate = async (data: blogFormSchemaType) => {
+  const handleCreate = async (data: BlogFormSchemaType) => {
     // console.log("create blog page", data);
     const result = await createBlog(data);
     const { error } = JSON.parse(result);

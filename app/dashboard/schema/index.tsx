@@ -1,35 +1,33 @@
-import { z } from "zod";
+import * as z from "zod";
 
-//! ______________________________________-Form Schema-_____________________________________________________
-export const FormSchema = z.object({
-    title: z.string().min(2, {
-        message: "Title must be at least 2 characters.",
-    }),
-    image: z.string().url({
-        message: "Invalid image URL",
-    }),
-    content: z.string().min(10, {
-        message: "Title must be at least 10 characters.",
-    }),
-    isPublish: z.boolean(),
-    isPremium: z.boolean(),
-}).refine((data) => {
-    const image = data.image;
+export const BlogFormSchema = z
+    .object({
+        title: z.string().min(2, {
+            message: "title is too short",
+        }),
+        content: z.string().min(10, {
+            message: "Content is too short",
+        }),
+        image: z.string().url({
+            message: "Invalid url",
+        }),
+        isPremium: z.boolean(),
+        isPublish: z.boolean(),
+    })
+    .refine(
+        (data) => {
+            const image_url = data.image;
+            try {
+                const url = new URL(image_url);
+                return url.hostname === "images.unsplash.com";
+            } catch {
+                return false;
+            }
+        },
+        {
+            message: "Currently we are supporting only the image from unsplash",
+            path: ["image_url"],
+        }
+    );
 
-    try {
-
-        const url = new URL(image);
-        return url.hostname === "images.unsplash.com"
-
-    } catch {
-        return false
-    }
-},
-    {
-        message: "Currently we support image url from unplash only",
-        path: ["image"]
-    }
-)
-
-
-export type blogFormSchemaType = z.infer<typeof FormSchema>
+export type BlogFormSchemaType = z.infer<typeof BlogFormSchema>;

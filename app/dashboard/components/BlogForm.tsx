@@ -20,32 +20,33 @@ import { cn } from "@/lib/utils"
 import Image from "next/image"
 import { Textarea } from "@/components/ui/textarea"
 import MarkdownPreview from "@/components/markdown/MarkdownPreview"
-import { FormSchema, blogFormSchemaType } from "../schema"
+import { BlogFormSchema, BlogFormSchemaType } from "../schema"
+import { IUpdateBlogType } from "@/lib/types/updateBlogType"
 
 
 
 //! ______________________________________-Form component-_____________________________________________________
 export default function BlogForm({
-    onHandleSubmit
-}: { onHandleSubmit: (data: blogFormSchemaType) => void }) {
+    onHandleSubmit, blog
+}: { onHandleSubmit: (data: BlogFormSchemaType) => void; blog?: IUpdateBlogType }) {
 
     const [isPreview, setIsPreview] = useState(false);
     // animation after saving a post
     const [isPending, startTransition] = useTransition()
 
-    const form = useForm<z.infer<typeof FormSchema>>({
+    const form = useForm<z.infer<typeof BlogFormSchema>>({
         mode: "all",
-        resolver: zodResolver(FormSchema),
+        resolver: zodResolver(BlogFormSchema),
         defaultValues: {
-            title: "",
-            image: "",
-            content: "",
-            isPremium: false,
-            isPublish: true,
+            title: blog?.title || "",
+            image: blog?.image || "",
+            content: blog?.blog_content?.content || "",
+            isPremium: blog?.is_premium || false,
+            isPublish: blog?.is_publish || true,
         },
     })
 
-    function onSubmit(data: z.infer<typeof FormSchema>) {
+    function onSubmit(data: z.infer<typeof BlogFormSchema>) {
         startTransition(() => {
             onHandleSubmit(data);
         })

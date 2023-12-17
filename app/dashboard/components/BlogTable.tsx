@@ -1,10 +1,10 @@
 import { Button } from '@/components/ui/button'
 import { EyeOpenIcon, Pencil1Icon } from '@radix-ui/react-icons'
-import { Switch } from "@/components/ui/switch"
 import { readBlogs, updateSwitchFormFromDb } from '@/lib/actions/blog'
 import DeleteAlert from './DeleteAlert'
 import SwitchForm from './SwitchForm'
 import { blogFormSchemaType } from '../schema'
+import Link from 'next/link'
 
 
 export default async function BlogTable() {
@@ -24,8 +24,8 @@ export default async function BlogTable() {
                 {
                     blogs?.map((blog) => {
 
-                        const updatePremium = updateSwitchFormFromDb.bind(null, blog.id, { is_premium: blog.is_premium } as unknown as blogFormSchemaType)
-                        const updatePublish = updateSwitchFormFromDb.bind(null, blog.id, { is_publish: blog.is_publish } as unknown as blogFormSchemaType)
+                        const updatePremium = updateSwitchFormFromDb.bind(null, blog.id, { is_premium: !blog.is_premium } as unknown as blogFormSchemaType)
+                        const updatePublish = updateSwitchFormFromDb.bind(null, blog.id, { is_publish: !blog.is_publish } as unknown as blogFormSchemaType)
 
                         return (<div key={blog.id} className='grid grid-cols-6 p-5'>
                             <h1 className='col-span-2'>{blog.title}</h1>
@@ -52,10 +52,12 @@ const BlogActions = ({ blogId, blogTitle }: { blogId: string, blogTitle: string 
             {/* delete action */}
             <DeleteAlert blogId={blogId} blogTitle={blogTitle} />
             {/* edit button  */}
-            <Button variant='outline' className='flex items-center gap-2'>
-                <Pencil1Icon />
-                Edit
-            </Button>
+            <Link href={'/dashboard/blog/edit/' + blogId}>
+                <Button variant='outline' className='flex items-center gap-2'>
+                    <Pencil1Icon />
+                    Edit
+                </Button>
+            </Link>
         </div>
     )
 } 
