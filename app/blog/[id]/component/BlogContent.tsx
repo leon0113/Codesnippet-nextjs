@@ -4,6 +4,7 @@ import { createBrowserClient } from "@supabase/ssr";
 import { Database } from '@/lib/types/supabase';
 import { useEffect, useState } from "react";
 import MarkdownPreview from "@/components/markdown/MarkdownPreview";
+import BlogLoading from "./BlogLoading";
 
 export default function BlogContent({ blogId }: { blogId: string }) {
 
@@ -13,6 +14,8 @@ export default function BlogContent({ blogId }: { blogId: string }) {
         created_at: string;
     } | null>(null);
 
+    const [isLoading, setIsLoading] = useState(true);
+
     const supabase = createBrowserClient<Database>(
         process.env.NEXT_PUBLIC_SUPABASE_URL!,
         process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
@@ -21,13 +24,19 @@ export default function BlogContent({ blogId }: { blogId: string }) {
     const readBlogContent = async () => {
         const { data } = await supabase.from("blog_content").select("*").eq("blog_id", blogId).single();
         setBlogContent(data);
+        setIsLoading(false);
     }
 
     useEffect(() => {
         readBlogContent();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
-    console.log(BlogContent);
+    // console.log(BlogContent);
+
+    if (isLoading) {
+        return <BlogLoading />
+    }
+
     return (
         <MarkdownPreview className="sm:px-10" content={blogContent?.content || ""} />
     )

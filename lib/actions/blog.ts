@@ -44,6 +44,7 @@ export async function deleteBlogFromDb(blogId: string) {
 
     const result = await supabase.from("blogs").delete().eq("id", blogId);
     revalidatePath(DASHBOARD);
+    revalidatePath("/blog/" + blogId);
     return JSON.stringify(result);
 }
 
