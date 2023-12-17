@@ -23,7 +23,7 @@ export async function createBlog(data: BlogFormSchemaType) {
     } else {
 
         const resultBlogContent = await supabase.from("blog_content").insert({ blog_id: resultBlog.data.id!, content: data.content });
-
+        revalidatePath(DASHBOARD);
         return JSON.stringify(resultBlogContent);
     }
 
@@ -54,6 +54,7 @@ export async function updateSwitchFormFromDb(blogId: string, data: BlogFormSchem
 
     const result = await supabase.from("blogs").update(data).eq("id", blogId);
     revalidatePath(DASHBOARD);
+    revalidatePath("/blog/" + blogId);
     return JSON.stringify(result);
 }
 
@@ -66,12 +67,27 @@ export async function editBlogsById(blogId: string) {
 }
 
 //! ----------------------Update Blog from db Function--------------------------------------------
-// export async function updateBlog(data: IUpdateBlogType) {
-//     const supabase = await CreateSupabaseServer();
+export async function updateBlogFormFromDb(blogId: string, data: BlogFormSchemaType) {
+    const supabase = await CreateSupabaseServer();
+    const { ["content"]: excludedKey, ...blogs } = data;
 
-//     const result = await supabase.from("blogs").update(data);
-//     revalidatePath(DASHBOARD);
-//     return JSON.stringify(result);
-// }
+    const resultBlog = await supabase.from("blogs").update(blogs).eq("id", blogId);
+
+    if (resultBlog.error) {
+        return JSON.stringify(resultBlog);
+    } else {
+        const resultBlog = await supabase.from("blog_content").update({ content: data.content }).eq("blog_id", blogId);
+        revalidatePath(DASHBOARD);
+        revalidatePath("/blog/" + blogId);
+        return JSON.stringify(resultBlog);
+    }
+
+}
 
 
+// //! ----------------------Read Blogs from db Function--------------------------------------------
+export async function readBlogsOnHome() {
+    const supabase = await CreateSupabaseServer();
+
+    return supabase.from("blogs").select("*").eq("is_publish", true).order("created_at", { ascending: true })
+}

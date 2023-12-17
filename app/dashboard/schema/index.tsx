@@ -11,8 +11,8 @@ export const BlogFormSchema = z
         image: z.string().url({
             message: "Invalid url",
         }),
-        isPremium: z.boolean(),
-        isPublish: z.boolean(),
+        is_premium: z.boolean(),
+        is_publish: z.boolean(),
     })
     .refine(
         (data) => {

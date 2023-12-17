@@ -41,8 +41,8 @@ export default function BlogForm({
             title: blog?.title || "",
             image: blog?.image || "",
             content: blog?.blog_content?.content || "",
-            isPremium: blog?.is_premium || false,
-            isPublish: blog?.is_publish || true,
+            is_premium: blog?.is_premium || false,
+            is_publish: blog?.is_publish || true,
         },
     })
 
@@ -82,7 +82,7 @@ export default function BlogForm({
                         {/* premium button  */}
                         <FormField
                             control={form.control}
-                            name="isPremium"
+                            name="is_premium"
                             render={({ field }) => (
                                 <FormItem>
                                     <FormControl>
@@ -99,7 +99,7 @@ export default function BlogForm({
                         {/* publish button  */}
                         <FormField
                             control={form.control}
-                            name="isPublish"
+                            name="is_publish"
                             render={({ field }) => (
                                 <FormItem>
                                     <FormControl>
