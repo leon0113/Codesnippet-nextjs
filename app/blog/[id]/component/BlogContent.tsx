@@ -5,6 +5,7 @@ import { Database } from '@/lib/types/supabase';
 import { useEffect, useState } from "react";
 import MarkdownPreview from "@/components/markdown/MarkdownPreview";
 import BlogLoading from "./BlogLoading";
+import Checkout from "@/components/stripe/Checkout";
 
 export default function BlogContent({ blogId }: { blogId: string }) {
 
@@ -26,15 +27,17 @@ export default function BlogContent({ blogId }: { blogId: string }) {
         setBlogContent(data);
         setIsLoading(false);
     }
-
     useEffect(() => {
         readBlogContent();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
-    // console.log(BlogContent);
+
 
     if (isLoading) {
         return <BlogLoading />
+    }
+    if (!blogContent?.content) {
+        return <Checkout />
     }
 
     return (

@@ -27,6 +27,7 @@ export default function UserProfile() {
     }
 
     const isAdmin = user?.user_metadata?.role === "admin";
+    console.log(isAdmin);
 
     return (
         <>

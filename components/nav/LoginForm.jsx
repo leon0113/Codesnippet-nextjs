@@ -10,7 +10,7 @@ import { usePathname } from 'next/navigation';
 export default function LoginButton() {
 
     const pathName = usePathname();
-    // console.log(pathName);
+
     const supabase = createBrowserClient(
         process.env.NEXT_PUBLIC_SUPABASE_URL,
         process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
