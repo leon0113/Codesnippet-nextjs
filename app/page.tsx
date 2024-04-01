@@ -22,7 +22,7 @@ export default async function Home() {
               <div className="relative w-full h-72 md:h-64 xl:h-96">
                 <Image
                   priority
-                  src={blog.image}
+                  src={blog.image_url}
                   alt="blog_image"
                   fill
                   className="object-cover object-center"
@@ -44,5 +44,6 @@ export default async function Home() {
         })
       }
     </div>
+
   )
 }

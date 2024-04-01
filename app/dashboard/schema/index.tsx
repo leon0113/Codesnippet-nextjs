@@ -8,7 +8,7 @@ export const BlogFormSchema = z
         content: z.string().min(10, {
             message: "Content is too short",
         }),
-        image: z.string().url({
+        image_url: z.string().url({
             message: "Invalid url",
         }),
         is_premium: z.boolean(),
@@ -16,10 +16,10 @@ export const BlogFormSchema = z
     })
     .refine(
         (data) => {
-            const image_url = data.image;
+            const image_url = data.image_url;
             try {
                 const url = new URL(image_url);
-                return url.hostname === "images.unsplash.com";
+                return url.hostname === "images.unsplash.com" || "plus.unsplash.com";
             } catch {
                 return false;
             }

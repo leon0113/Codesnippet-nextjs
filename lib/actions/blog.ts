@@ -1,12 +1,8 @@
 "use server"
 
-import { BlogFormSchemaType } from './../../app/dashboard/schema/index';
-import { createServerClient } from '@supabase/ssr';
-import { Database } from './../types/supabase';
-import { cookies } from "next/headers"
 import { revalidatePath } from 'next/cache';
-import { CreateSupabaseServer } from '../supabase'
-import { IUpdateBlogType } from '../types/updateBlogType';
+import { CreateSupabaseServer } from '../supabase';
+import { BlogFormSchemaType } from './../../app/dashboard/schema/index';
 
 
 const DASHBOARD = '/dashboard';
@@ -16,7 +12,7 @@ export async function createBlog(data: BlogFormSchemaType) {
     const supabase = await CreateSupabaseServer();
 
     const { ["content"]: excludedKey, ...blogs } = data;
-    const resultBlog = await supabase.from("blogs").insert(blogs).select("id").single();
+    const resultBlog = await supabase.from("blog").insert(blogs).select("id").single();
 
     if (resultBlog.error) {
         return JSON.stringify(resultBlog);
@@ -34,7 +30,7 @@ export async function createBlog(data: BlogFormSchemaType) {
 export async function readBlogs() {
     const supabase = await CreateSupabaseServer();
 
-    return supabase.from("blogs").select("*").order("created_at", { ascending: true })
+    return supabase.from("blog").select("*").order("created_at", { ascending: true })
 }
 
 
@@ -42,7 +38,7 @@ export async function readBlogs() {
 export async function deleteBlogFromDb(blogId: string) {
     const supabase = await CreateSupabaseServer();
 
-    const result = await supabase.from("blogs").delete().eq("id", blogId);
+    const result = await supabase.from("blog").delete().eq("id", blogId);
     revalidatePath(DASHBOARD);
     revalidatePath("/blog/" + blogId);
     return JSON.stringify(result);
@@ -53,7 +49,7 @@ export async function deleteBlogFromDb(blogId: string) {
 export async function updateSwitchFormFromDb(blogId: string, data: BlogFormSchemaType) {
     const supabase = await CreateSupabaseServer();
 
-    const result = await supabase.from("blogs").update(data).eq("id", blogId);
+    const result = await supabase.from("blog").update(data).eq("id", blogId);
     revalidatePath(DASHBOARD);
     revalidatePath("/blog/" + blogId);
     return JSON.stringify(result);
@@ -64,7 +60,7 @@ export async function updateSwitchFormFromDb(blogId: string, data: BlogFormSchem
 export async function editBlogsById(blogId: string) {
     const supabase = await CreateSupabaseServer();
 
-    return supabase.from("blogs").select("*, blog_content(*)").eq("id", blogId).single();
+    return supabase.from("blog").select("*, blog_content(*)").eq("id", blogId).single();
 }
 
 //! ----------------------Update Blog from db Function--------------------------------------------
@@ -72,7 +68,7 @@ export async function updateBlogFormFromDb(blogId: string, data: BlogFormSchemaT
     const supabase = await CreateSupabaseServer();
     const { ["content"]: excludedKey, ...blogs } = data;
 
-    const resultBlog = await supabase.from("blogs").update(blogs).eq("id", blogId);
+    const resultBlog = await supabase.from("blog").update(blogs).eq("id", blogId);
 
     if (resultBlog.error) {
         return JSON.stringify(resultBlog);
@@ -90,5 +86,5 @@ export async function updateBlogFormFromDb(blogId: string, data: BlogFormSchemaT
 export async function readBlogsOnHome() {
     const supabase = await CreateSupabaseServer();
 
-    return supabase.from("blogs").select("*").eq("is_publish", true).order("created_at", { ascending: true })
+    return supabase.from("blog").select("*").eq("is_publish", true).order("created_at", { ascending: true })
 }

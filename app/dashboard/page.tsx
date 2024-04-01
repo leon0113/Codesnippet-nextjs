@@ -5,17 +5,18 @@ import React from 'react'
 import BlogTable from './components/BlogTable'
 
 export default function Dashboard() {
-  return (
-    <div className='space-y-5'>
-      <div className='flex items-center justify-between'>
-        <h1 className='text-xl font-bold'>Blogs</h1>
-        <Link href='/dashboard/blog/create'>
-          <Button>Create <PlusIcon /></Button>
-        </Link>
-      </div>
+    return (
+        <div className='space-y-5'>
+            <div className='flex items-center justify-between'>
+                <h1 className='text-xl font-bold'>Blogs</h1>
+                <Link href='/dashboard/blog/create'>
+                    <Button>Create <PlusIcon /></Button>
+                </Link>
+            </div>
 
-      <BlogTable />
+            <BlogTable />
 
-    </div>
-  )
+
+        </div>
+    )
 }

@@ -1,9 +1,9 @@
 'use client';
 
-import { Button } from '../ui/button'
-import { FaGithub } from "react-icons/fa";
-import { createBrowserClient } from '@supabase/ssr'
+import { createBrowserClient } from '@supabase/ssr';
 import { usePathname } from 'next/navigation';
+import { FaGithub, FaGoogle } from "react-icons/fa";
+import { Button } from '../ui/button';
 
 
 
@@ -18,7 +18,7 @@ export default function LoginButton() {
 
     const handleLogin = () => {
         supabase.auth.signInWithOAuth({
-            provider: "github",
+            provider: "google",
             options: {
                 redirectTo: location.origin + "/auth/callback?next" + pathName
             }
@@ -28,8 +28,8 @@ export default function LoginButton() {
     return (
         <>
             <Button variant='outline' onClick={handleLogin} className='flex items-center gap-2'>
-                <FaGithub />
-                Login
+                <FaGoogle />
+                {/* Login */}
             </Button>
         </>
     )

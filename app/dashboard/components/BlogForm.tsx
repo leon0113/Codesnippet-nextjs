@@ -39,7 +39,7 @@ export default function BlogForm({
         resolver: zodResolver(BlogFormSchema),
         defaultValues: {
             title: blog?.title || "",
-            image: blog?.image || "",
+            image_url: blog?.image_url || "",
             content: blog?.blog_content?.content || "",
             is_premium: blog?.is_premium || false,
             is_publish: blog?.is_publish || true,
@@ -62,7 +62,7 @@ export default function BlogForm({
                     {/* preview button  */}
                     <div className="flex gap-5 items-center flex-wrap">
                         <span role="button" tabIndex={0} className="flex items-center gap-1 border bg-zinc-700 p-2 rounded-md hover:ring-2 hover:ring-violet-500 transition-all"
-                            onClick={() => setIsPreview(!isPreview && !form.getFieldState("image").invalid)}
+                            onClick={() => setIsPreview(!isPreview && !form.getFieldState("image_url").invalid)}
                         >
                             {
                                 isPreview ? (
@@ -149,7 +149,7 @@ export default function BlogForm({
                 {/* -------------------------- Image url field  */}
                 <FormField
                     control={form.control}
-                    name="image"
+                    name="image_url"
                     render={({ field }) => (
                         <FormItem>
                             {/* <FormLabel>Title</FormLabel> */}
@@ -161,13 +161,13 @@ export default function BlogForm({
                                     <div className={cn("lg:px-10", isPreview ? "mx-auto w-full lg:w-4/5" : "w-1/2 lg:block hidden")}>
                                         {
                                             !isPreview ? <><p>Click on preview to see image</p></> : <div className="relative h-80 mt-5">
-                                                <Image src={form.getValues().image} alt='image' fill className="object-cover object-center rounded-md" />
+                                                <Image src={form.getValues().image_url} alt='image' fill className="object-cover object-center rounded-md" />
                                             </div>
                                         }
                                     </div>
                                 </div>
                             </FormControl>
-                            {form.getFieldState("image").invalid && form.getValues().image &&
+                            {form.getFieldState("image_url").invalid && form.getValues().image_url &&
                                 <div className="">
                                     <FormMessage />
                                 </div>}
@@ -188,7 +188,7 @@ export default function BlogForm({
                                 <div className={cn("p-2 w-full flex break-words gap-2", isPreview ? 'divide-x-0' : "divide-x h-70vh")}>
 
                                     <Textarea placeholder="Write details" {...field} className={cn("border-none text-lg font-medium leading-relaxed resize-none h-full", isPreview ? "w-0 p-0" : "w-full lg:w-1/2")} />
-                                    {/* 
+                                    {/*
                                     <div className={cn("overflow-y-auto", isPreview ? "mx-auto w-full lg:w-4/5" : "w-1/2 lg:block hidden px-3")}>
 
                                         <MarkdownPreview content={form.getValues().content} />

@@ -7,6 +7,7 @@ import 'highlight.js/styles/atom-one-dark.min.css'
 import { PiTerminal } from 'react-icons/pi'
 import CopyButton from './CopyButton';
 import { icons } from '../../lib/icons/index'
+import Image from 'next/image';
 
 export default function MarkdownPreview({ content, className }: { content: string; className?: string }) {
     return (
@@ -29,6 +30,9 @@ export default function MarkdownPreview({ content, className }: { content: strin
                 p: ({ node, ...props }) => {
                     return <p {...props} className='text-sm' />
                 },
+                // img: ({ node, ...props }) => {
+                //     return <Image src {...props} className='text-sm' />
+                // },
                 code: ({ node, className, children, ...props }) => {
                     const match = /language-(\w+)/.exec(className || "");
                     // console.log(match);
@@ -41,7 +45,7 @@ export default function MarkdownPreview({ content, className }: { content: strin
                             Icon = icons[match[1] as keyof typeof icons];
                         }
 
-                        //  generate random id 
+                        //  generate random id
                         const id = (Math.floor(Math.random() * 100) + 1).toString();
 
 
@@ -52,7 +56,7 @@ export default function MarkdownPreview({ content, className }: { content: strin
                                     <Icon />
                                     <span>
                                         {
-                                            //@ts-ignore    
+                                            //@ts-ignore
                                             node?.data?.meta
                                         }
                                     </span>
