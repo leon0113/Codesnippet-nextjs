@@ -17,6 +17,7 @@ export default function LoginButton() {
     )
 
     const handleLogin = () => {
+        // console.log(supabase.auth.id());
         supabase.auth.signInWithOAuth({
             provider: "google",
             options: {

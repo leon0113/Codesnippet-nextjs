@@ -11,13 +11,13 @@ export async function GET(req: Request) {
     const { searchParams } = new URL(req.url);
 
     const id = searchParams.get("id");
-    console.log(id);
+    // console.log(id);
 
     if (id === "*") {
-        const result = await supabase.from("blogs").select("id").limit(10);
+        const result = await supabase.from("blog").select("id").limit(10);
         return Response.json({ ...result });
     } else if (id) {
-        const result = await supabase.from("blogs").select("*").eq("id", id).single();
+        const result = await supabase.from("blog").select("*").eq("id", id).single();
         return Response.json({ ...result });
     } else {
         return Response.json({});

@@ -31,7 +31,7 @@ export async function createBlog(data: BlogFormSchemaType) {
 export async function readBlogs() {
     const supabase = await CreateSupabaseServer();
 
-    return supabase.from("blog").select("*").order("created_at", { ascending: true })
+    return supabase.from("blog").select("*").order("created_at", { ascending: false })
 }
 
 
@@ -87,5 +87,5 @@ export async function updateBlogFormFromDb(blogId: string, data: BlogFormSchemaT
 export async function readBlogsOnHome() {
     const supabase = await CreateSupabaseServer();
 
-    return supabase.from("blog").select("*").eq("is_publish", true).order("created_at", { ascending: true })
+    return supabase.from("blog").select("*").eq("is_publish", true).order("created_at", { ascending: false })
 }

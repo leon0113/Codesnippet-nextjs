@@ -16,7 +16,7 @@ export default function CopyButton({ id }: { id: string }) {
             await navigator.clipboard.writeText(text!)
             setOnCopy(true);
         } catch {
-            console.log("Error while copying");
+            // console.log("Error while copying");
         }
     }
 
