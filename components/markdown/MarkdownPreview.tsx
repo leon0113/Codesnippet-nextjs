@@ -31,7 +31,7 @@ export default function MarkdownPreview({ content, className }: { content: strin
                     return <p {...props} className='text-sm' />
                 },
                 // img: ({ node, ...props }) => {
-                //     return <Image src {...props} className='text-sm' />
+                //     return <Image src {...props} className='text-sm' alt='image' />
                 // },
                 code: ({ node, className, children, ...props }) => {
                     const match = /language-(\w+)/.exec(className || "");

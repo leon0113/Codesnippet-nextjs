@@ -18,6 +18,10 @@ const nextConfig = {
                 hostname: "plus.unsplash.com",
                 protocol: "https"
             },
+            {
+                hostname: "imgbb.com",
+                protocol: "https"
+            },
         ]
     }
 }

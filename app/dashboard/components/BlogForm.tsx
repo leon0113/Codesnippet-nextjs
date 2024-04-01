@@ -168,7 +168,7 @@ export default function BlogForm({
                                 </div>
                             </FormControl>
                             {form.getFieldState("image_url").invalid && form.getValues().image_url &&
-                                <div className="">
+                                <div className="p-2">
                                     <FormMessage />
                                 </div>}
 
@@ -188,8 +188,8 @@ export default function BlogForm({
                                 <div className={cn("p-2 w-full flex break-words gap-2", isPreview ? 'divide-x-0' : "divide-x h-70vh")}>
 
                                     <Textarea placeholder="Write details" {...field} className={cn("border-none text-lg font-medium leading-relaxed resize-none h-full", isPreview ? "w-0 p-0" : "w-full lg:w-1/2")} />
-                                    {/*
-                                    <div className={cn("overflow-y-auto", isPreview ? "mx-auto w-full lg:w-4/5" : "w-1/2 lg:block hidden px-3")}>
+
+                                    {/* <div className={cn("overflow-y-auto", isPreview ? "mx-auto w-full lg:w-4/5" : "w-1/2 lg:block hidden px-3")}>
 
                                         <MarkdownPreview content={form.getValues().content} />
 

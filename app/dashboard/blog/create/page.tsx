@@ -21,7 +21,7 @@ export default function CreateBlog() {
                 title: "Failed to create blog",
                 description: (
                     <pre className="mt-2 w-full rounded-md bg-slate-950 p-0 text-xs">
-                        <code className="text-white">
+                        <code className="text-pink-600 w-[50px]">
                             {error.message}
                         </code>
                     </pre>

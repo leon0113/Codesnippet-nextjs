@@ -9,11 +9,12 @@ const DASHBOARD = '/dashboard';
 
 // //! ----------------------Create Blog to db Function--------------------------------------------
 export async function createBlog(data: BlogFormSchemaType) {
+    // console.log("action: ", data);
     const supabase = await CreateSupabaseServer();
 
     const { ["content"]: excludedKey, ...blogs } = data;
     const resultBlog = await supabase.from("blog").insert(blogs).select("id").single();
-
+    console.log(resultBlog);
     if (resultBlog.error) {
         return JSON.stringify(resultBlog);
     } else {
